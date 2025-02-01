@@ -1,9 +1,3 @@
-//bg-blue-950 border-blue-950
-//bg-zinc-900 border-zinc-950
-//bg-rose-950 border-rose-950
-//bg-pink-600 border-pink-600
-//bg-purple-600 border-purple-600
-
 import { PRODUCTS_PRICES } from "@/config/products";
 
 export const COLORS = [

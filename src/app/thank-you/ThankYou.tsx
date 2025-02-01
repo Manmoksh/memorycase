@@ -9,14 +9,13 @@ import { formatPrice } from "@/lib/utils";
 
 const ThankYou = () => {
   const searchParams = useSearchParams();
-  const orderId = searchParams.get("orderId") || "";
+  const orderId = searchParams.get("orderID") || "";
   const { data } = useQuery({
     queryKey: ["get-payment-status"],
     queryFn: async () => await getPaymentStatus({ orderId }),
     retry: true,
-    retryDelay: 5000,
+    retryDelay: 500,
   });
-
   if (data === undefined) {
     return (
       <div className="w-full mt-24 flex justify-center ">

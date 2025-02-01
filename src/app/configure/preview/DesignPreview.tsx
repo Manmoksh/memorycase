@@ -12,12 +12,17 @@ import Confetti from "react-dom-confetti";
 import { checkOutSession } from "./action";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import LoginModal from "@/components/LoginModal";
+import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 
-const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
+const DesignPreview = ({
+  configuration,
+  user,
+}: {
+  configuration: Configuration;
+  user: KindeUser | null;
+}) => {
   const { id } = configuration;
-  const { user } = useKindeBrowserClient();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const router = useRouter();
@@ -28,7 +33,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
     (supportedColor) => supportedColor.value === color
   )?.tw;
 
-  const modelLabel = MODELS.options.find(({ value }) => value === model)
+  const modelLabel = MODELS?.options.find(({ value }) => value === model)
     ?.label!;
   let totalPrice = BASE_PRICE;
   if (material === "polycarbonate")
@@ -53,7 +58,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   const handelCheckout = () => {
     if (user) {
       //create payment session
-      createPaymentSession({ configId: id });
+      createPaymentSession({ configId: id, user });
     } else {
       //user should be login
       localStorage.setItem("configurationId", id);
